@@ -1,71 +1,289 @@
-# Props Combination in React
+# Props Combination Pattern in React
 
-## About
+## Overview
 
-Props combination is a pattern in React that allows you to create more flexible and reusable components by combining related props. This pattern is particularly useful when you have a component that can be rendered in different ways depending on the props it receives.
+Props Combination is a pattern where you create flexible components by combining related props to generate different variants without creating multiple similar components. This pattern reduces code duplication and provides a clean API for component consumers.
 
-## The Pattern
+## Why Use Props Combination?
 
-The props combination pattern involves creating a component that accepts a set of related props and then uses those props to determine how the component should be rendered. This can be done in a variety of ways, but a common approach is to use a `switch` statement or a series of `if` statements to check the props and then render the appropriate output.
+- **Flexibility**: Create many variants from a single component
+- **Maintainability**: Single source of truth for component logic
+- **Reduced Duplication**: Avoid creating similar components
+- **Clear API**: Intuitive prop combinations
+- **Extensibility**: Easy to add new variants
 
-### Example: A Flexible Button Component
-
-Here is an example of a `Button` component that uses the props combination pattern to render different types of buttons:
+## Basic Pattern
 
 ```jsx
-// src/components/Button.jsx
-import React from 'react';
+function Button({ variant = 'primary', size = 'medium', children }) {
+  const variantStyles = {
+    primary: { backgroundColor: '#3498db', color: 'white' },
+    secondary: { backgroundColor: '#95a5a6', color: 'white' },
+    danger: { backgroundColor: '#e74c3c', color: 'white' }
+  };
 
-const Button = ({ variant, children, ...rest }) => {
-  const styles = {
-    primary: {
-      backgroundColor: 'blue',
-      color: 'white',
-    },
-    secondary: {
-      backgroundColor: 'gray',
-      color: 'black',
-    },
-    danger: {
-      backgroundColor: 'red',
-      color: 'white',
-    },
+  const sizeStyles = {
+    small: { padding: '6px 12px', fontSize: '12px' },
+    medium: { padding: '10px 20px', fontSize: '14px' },
+    large: { padding: '14px 28px', fontSize: '16px' }
   };
 
   return (
-    <button style={styles[variant]} {...rest}>
+    <button style={{ ...variantStyles[variant], ...sizeStyles[size] }}>
       {children}
     </button>
   );
-};
+}
 
-export default Button;
+// Usage - Combine variant and size
+<Button variant="primary" size="large">Click Me</Button>
+<Button variant="danger" size="small">Delete</Button>
 ```
 
-### Usage
+## Real-World Examples
 
-Here's how you would use the `Button` component in your application:
+### Alert Component
 
 ```jsx
-// src/App.jsx
-import React from 'react';
-import Button from './components/Button';
+function Alert({ type = 'info', dismissible = false, icon = true, children }) {
+  const typeConfig = {
+    success: { bg: '#d4edda', color: '#155724', icon: '✓' },
+    error: { bg: '#f8d7da', color: '#721c24', icon: '✗' },
+    warning: { bg: '#fff3cd', color: '#856404', icon: '⚠' },
+    info: { bg: '#d1ecf1', color: '#0c5460', icon: 'ℹ' }
+  };
 
-const App = () => (
-  <div>
-    <h1>Props Combination</h1>
-    <Button variant="primary">Primary Button</Button>
-    <Button variant="secondary">Secondary Button</Button>
-    <Button variant="danger">Danger Button</Button>
-  </div>
-);
+  const config = typeConfig[type];
 
-export default App;
+  return (
+    <div style={{ backgroundColor: config.bg, color: config.color, padding: '12px' }}>
+      {icon && <span>{config.icon}</span>}
+      {children}
+      {dismissible && <button onClick={() => {}}>×</button>}
+    </div>
+  );
+}
+
+// Usage
+<Alert type="success" dismissible icon>Operation successful!</Alert>
+<Alert type="error" dismissible={false}>Error occurred</Alert>
 ```
 
-## Note
+### Card Component
 
-- **Flexibility:** The props combination pattern allows you to create more flexible and reusable components.
-- **Readability:** This pattern can make your code more readable and easier to understand.
-- **Maintainability:** This pattern can make your code more maintainable by reducing the need for multiple components that do similar things.
-- **Combination with other patterns:** This pattern can be used in conjunction with other patterns, such as the compound components pattern, to create even more powerful and flexible components.
+```jsx
+function Card({ 
+  variant = 'default', 
+  hoverable = false, 
+  clickable = false,
+  elevated = false,
+  children 
+}) {
+  const variants = {
+    default: { border: '1px solid #ddd', boxShadow: 'none' },
+    outlined: { border: '2px solid #3498db', boxShadow: 'none' },
+    filled: { border: 'none', backgroundColor: '#f8f9fa' }
+  };
+
+  const style = {
+    ...variants[variant],
+    padding: '20px',
+    borderRadius: '8px',
+    cursor: clickable ? 'pointer' : 'default',
+    boxShadow: elevated ? '0 4px 8px rgba(0,0,0,0.1)' : variants[variant].boxShadow,
+    transition: hoverable ? 'transform 0.2s' : 'none'
+  };
+
+  return <div style={style}>{children}</div>;
+}
+
+// Usage
+<Card variant="outlined" hoverable elevated>Hover me!</Card>
+<Card variant="filled" clickable>Click me!</Card>
+```
+
+## Best Practices
+
+### 1. Use Meaningful Prop Names
+
+```jsx
+// ✅ Good - Clear prop names
+<Button variant="primary" size="large" fullWidth />
+
+// ❌ Bad - Unclear prop names
+<Button type="1" sz="lg" fw />
+```
+
+### 2. Provide Sensible Defaults
+
+```jsx
+// ✅ Good - Has defaults
+function Button({ variant = 'primary', size = 'medium', children }) {
+  // ...
+}
+
+// ❌ Bad - No defaults
+function Button({ variant, size, children }) {
+  // variant and size could be undefined
+}
+```
+
+### 3. Document Prop Combinations
+
+```jsx
+/**
+ * Button component with multiple variants and sizes
+ * 
+ * @param {Object} props
+ * @param {'primary'|'secondary'|'danger'} props.variant - Button style variant
+ * @param {'small'|'medium'|'large'} props.size - Button size
+ * @param {boolean} props.disabled - Whether button is disabled
+ * @param {boolean} props.loading - Whether button shows loading state
+ * @param {boolean} props.fullWidth - Whether button takes full width
+ */
+function Button({ variant, size, disabled, loading, fullWidth, children }) {
+  // ...
+}
+```
+
+### 4. Validate Prop Combinations
+
+```jsx
+// ✅ Good - Validates combinations
+function Button({ variant, size, children }) {
+  if (variant === 'link' && size === 'large') {
+    console.warn('Link variant does not support large size');
+  }
+  // ...
+}
+
+// Or use PropTypes
+Button.propTypes = {
+  variant: PropTypes.oneOf(['primary', 'secondary', 'danger', 'link']),
+  size: PropTypes.oneOf(['small', 'medium', 'large'])
+};
+```
+
+## Common Patterns
+
+### 1. Boolean Flags Pattern
+
+```jsx
+function Input({ 
+  error = false, 
+  disabled = false, 
+  required = false,
+  fullWidth = false 
+}) {
+  return (
+    <input
+      className={`
+        ${error ? 'input-error' : ''}
+        ${disabled ? 'input-disabled' : ''}
+        ${required ? 'input-required' : ''}
+        ${fullWidth ? 'input-full-width' : ''}
+      `}
+    />
+  );
+}
+```
+
+### 2. Variant + Modifier Pattern
+
+```jsx
+function Badge({ 
+  variant = 'default',  // Base style
+  size = 'medium',      // Size modifier
+  rounded = false,      // Shape modifier
+  outlined = false      // Style modifier
+}) {
+  // Combine all modifiers
+}
+```
+
+### 3. Compound Props Pattern
+
+```jsx
+function Table({ 
+  striped = false,
+  bordered = false,
+  hoverable = false,
+  compact = false,
+  responsive = false 
+}) {
+  const className = [
+    'table',
+    striped && 'table-striped',
+    bordered && 'table-bordered',
+    hoverable && 'table-hover',
+    compact && 'table-compact',
+    responsive && 'table-responsive'
+  ].filter(Boolean).join(' ');
+
+  return <table className={className}>{children}</table>;
+}
+```
+
+## Testing Strategy
+
+```jsx
+describe('Button', () => {
+  it('renders with default props', () => {
+    render(<Button>Click</Button>);
+    expect(screen.getByRole('button')).toHaveClass('btn-primary btn-medium');
+  });
+
+  it('combines variant and size props', () => {
+    render(<Button variant="danger" size="large">Delete</Button>);
+    expect(screen.getByRole('button')).toHaveClass('btn-danger btn-large');
+  });
+
+  it('handles multiple boolean flags', () => {
+    render(<Button disabled loading fullWidth>Submit</Button>);
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+    expect(button).toHaveClass('btn-loading btn-full-width');
+  });
+});
+```
+
+## When to Use This Pattern
+
+✅ **Good for:**
+- Components with multiple visual variants
+- UI component libraries
+- Design systems
+- Configurable components
+- Reducing component duplication
+
+❌ **Consider alternatives for:**
+- Components with complex logic
+- When variants are very different
+- When type safety is critical (consider separate components)
+- Simple components with few variations
+
+## Common Pitfalls
+
+1. **Too many props**: Keep prop combinations manageable
+2. **Invalid combinations**: Validate incompatible prop combinations
+3. **Poor defaults**: Always provide sensible defaults
+4. **Unclear naming**: Use descriptive prop names
+5. **Missing documentation**: Document all prop combinations
+
+## Integration with Other Patterns
+
+- **Compound Components**: Use props combination within compound components
+- **Render Props**: Combine with render props for maximum flexibility
+- **Custom Hooks**: Extract prop combination logic into hooks
+- **Atomic Design**: Use for atoms and molecules
+
+## Popular Libraries Using This Pattern
+
+- **Material-UI**: Button, TextField, etc.
+- **Ant Design**: All components use prop combinations
+- **Chakra UI**: Extensive use of variant props
+- **Bootstrap React**: className combinations
+
+## Summary
+
+Props Combination is a powerful pattern for creating flexible, reusable components. By combining related props, you can create many variants from a single component, reducing code duplication and providing a clean, intuitive API. This pattern is essential for building component libraries and design systems.
