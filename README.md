@@ -4,7 +4,7 @@ A comprehensive, production-ready collection of React design patterns and best p
 
 ## 🚀 Project Overview
 
-This repository contains **14 fully-implemented design patterns** with professional-grade code, comprehensive documentation, and interactive demonstrations. Each pattern includes:
+This repository contains **25 fully-implemented design patterns** with professional-grade code, comprehensive documentation, and interactive demonstrations. Each pattern includes:
 
 - ✅ **Production-ready code** with JSDoc documentation
 - ✅ **Comprehensive README** with examples and best practices
@@ -92,7 +92,7 @@ Frontend-Design-Patterns/
 
 ## 📚 Implemented Design Patterns
 
-All 14 patterns are fully implemented with professional code quality, comprehensive documentation, and interactive demonstrations.
+All 25 patterns are fully implemented with professional code quality, comprehensive documentation, and interactive demonstrations.
 
 ### 🏗️ Structural Patterns
 
@@ -171,6 +171,67 @@ All 14 patterns are fully implemented with professional code quality, comprehens
     - Loose coupling
     - Better testability
     - Flexible architecture
+
+### ⚡ Performance Patterns
+
+15. **[Lazy Loading / Code Splitting](./designs/LazyLoading/README.md)** - Load components on-demand for better performance
+    - Faster initial load
+    - Reduced bundle size
+    - Better performance
+
+16. **[Portal Pattern](./designs/PortalPattern/README.md)** - Render components outside parent DOM hierarchy
+    - Escape parent constraints
+    - Better positioning
+    - Modals and overlays
+
+### 🏛️ Classic Design Patterns
+
+17. **[Observer Pattern](./designs/ObserverPattern/README.md)** - Event-driven communication between components
+    - Loose coupling
+    - Event-driven architecture
+    - Scalable notifications
+
+18. **[Singleton Pattern](./designs/SingletonPattern/README.md)** - Ensure a class has only one instance
+    - Single instance
+    - Global access
+    - Resource management
+
+19. **[Factory Pattern](./designs/FactoryPattern/README.md)** - Encapsulate object creation logic
+    - Centralized creation
+    - Flexible object types
+    - Consistent creation
+
+20. **[Strategy Pattern](./designs/StrategyPattern/README.md)** - Interchangeable algorithms at runtime
+    - Algorithm flexibility
+    - Runtime selection
+    - Clean conditionals
+
+21. **[Proxy Pattern](./designs/ProxyPattern/README.md)** - Control access to objects
+    - Access control
+    - Lazy loading
+    - Caching
+
+22. **[Module Pattern](./designs/ModulePattern/README.md)** - Encapsulation and privacy
+    - Private members
+    - Namespace management
+    - Clean encapsulation
+
+### 🏗️ Architecture Patterns
+
+23. **[Flux Pattern](./designs/FluxPattern/README.md)** - Unidirectional data flow architecture
+    - Predictable state
+    - Clear data flow
+    - Scalable state management
+
+24. **[Layout Pattern](./designs/LayoutPattern/README.md)** - Reusable page layout structures
+    - Consistent layouts
+    - Reduced duplication
+    - Flexible page structures
+
+25. **[Extensible Styles](./designs/ExtensibleStyles/README.md)** - Flexible component styling with overrides
+    - Style flexibility
+    - Theme support
+    - Customizable components
 
 ---
 
@@ -359,12 +420,14 @@ We welcome contributions! Here's how you can help:
 
 ## 📊 Project Stats
 
-- **14 Design Patterns** - Fully implemented
+- **25 Design Patterns** - Fully implemented
 - **Production-Ready Code** - Professional quality
 - **Comprehensive Docs** - Detailed explanations
 - **Interactive Demos** - Live examples
 - **Modern React** - Hooks-based implementations
 - **Well-Tested** - Testing strategies included
+- **Performance Optimized** - Lazy loading and code splitting
+- **Classic Patterns** - Traditional design patterns in React context
 
 ## 🙏 Acknowledgments
 
