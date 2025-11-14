@@ -58,6 +58,9 @@ Frontend-Design-Patterns/
 ## 🚦 Getting Started
 
 1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/Frontend-Design-Patterns.git
+   ```
 
 2. **Install dependencies**
    ```bash
@@ -81,71 +84,22 @@ Frontend-Design-Patterns/
 
 ## 📚 Implemented Design Patterns
 
-### 1. Atomic Components
-A methodology for creating design systems by breaking down components into fundamental building blocks:
-- **Atoms**: Basic UI elements like buttons, inputs, labels
-- **Molecules**: Simple groups of UI elements functioning together
-- **Organisms**: Complex UI components composed of molecules and atoms
-- **Templates**: Page-level objects with multiple organisms
+This repository includes the following design patterns. Each pattern has its own directory with a detailed `README.md` file and a practical example.
 
-Example:
-```jsx
-// Atom level component
-function AtomComponent({label, onClick}) {
-    return (
-        <button onClick={onClick}>{label}</button>
-    );
-}
-
-// Molecule level component
-function MoleculeComponent({label, inputType, buttonText, onButtonClicked}) {
-    return (
-        <div>
-            <label>{label}</label>
-            <input type={inputType} />
-            <AtomComponent label={buttonText} onClick={onButtonClicked} />
-        </div>
-    );
-}
-```
-
-### 2. Compound Components
-Components that work together and share an implicit state using React Context:
-
-Example:
-```jsx
-// Usage of the Tabs compound component
-<Tabs>
-  <Tabs.TabList>
-    <Tabs.Tab index={0}>Tab 1</Tabs.Tab>
-    <Tabs.Tab index={1}>Tab 2</Tabs.Tab>
-  </Tabs.TabList>
-  <Tabs.TabPanel index={0}>Content 1</Tabs.TabPanel>
-  <Tabs.TabPanel index={1}>Content 2</Tabs.TabPanel>
-</Tabs>
-```
-
-### 3. Component Injection
-Dynamically injecting components into a base component structure:
-
-Example:
-```jsx
-// Base component accepting component injections
-<BaseComponent
-  Header={() => <h1>Header Injection</h1>}
-  Content={() => <h1>Content Injection</h1>}
-  Footer={() => <h1>Footer Injection</h1>}
-/>
-
-// Plugin host pattern
-<PluginHost
-  plugins={[
-    () => <h1>Plugin 1</h1>,
-    () => <h1>Plugin 2</h1>,
-    () => <h1>Plugin 3</h1>,
-  ]}
-/>
-```
+- [Atomic Components](./designs/AtomicComponents/README.md): A methodology for creating design systems by breaking down components into fundamental building blocks.
+- [Component Composition](./designs/ComponentComposition/README.md): Building complex UIs from simpler, reusable components.
+- [Component Injection](./designs/ComponentInjection/README.md): Dynamically injecting components into a host component.
+- [Compound Components](./designs/CompoundComponents/README.md): Creating components that work together and share an implicit state.
+- [Controlled Props](./designs/ControlleredProps/README.md): Allowing a parent component to control the state of a child component.
+- [Custom Hooks](./designs/CustomHook/README.md): Extracting and reusing stateful logic from components.
+- [Dependency Injection](./designs/DependencyInjection/README.md): Decoupling components by providing their dependencies from an external source.
+- [Higher-Order Components](./designs/HigherOrderComponents/README.md): Reusing component logic by wrapping a component in another component.
+- [Props Combination](./designs/PropsCombination/README.md): Creating flexible components by combining related props.
+- [Props Getter](./designs/PropsGetter/README.md): Providing a set of props to a component through a getter function.
+- [Provider Pattern](./designs/ProviderPattern/README.md): Sharing data and functionality between components without prop drilling.
+- [Render Props](./designs/RenderProps/README.md): Sharing code and logic between components by passing a function as a prop.
+- [State Reducer](./designs/StateReducer/README.md): Giving consumers of a component more control over its state.
+- [Stateful and Stateless Components](./designs/StatefulAndStatelessComponents/README.md): Separating components into those that manage state and those that do not.
 
 ## 🧪 Development
 
@@ -183,10 +137,9 @@ When implementing design patterns:
 ## 📖 Additional Resources
 
 Each design pattern directory includes:
-- README with explanation
-- Example implementation
-- PDF documentation with detailed explanations
-- Use cases and best practices
+- A `README.md` with a detailed explanation of the pattern.
+- An example implementation of the pattern.
+- A PDF document with further details, use cases, and best practices.
 
 ## 🔗 Related Resources
 
